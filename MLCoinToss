@@ -1,0 +1,54 @@
+# -*- coding: utf-8 -*-
+"""
+"Machine Learning Demonstration of a Coin Toss"
+"""
+
+import numpy as np
+import scipy as stats
+from matplotlib import pyplot as plt
+import seaborn as sns
+
+
+
+if __name__ == "__main__":
+    number_of_trails = [0, 2, 10, 20, 100, 500]
+    data = stats.bernoulli.rvs(0.5, size = number_of_trails[-1])
+    x = np.linspace(0, 1, 100)
+    
+    for i, N in enumerate(number_of_trails):
+        heads = data[:N].sum()
+        
+        ax = plt.subplot(len(number_of_trails)/ 2, 2, 1+1)
+        ax.set.title("%s trials, %s heads" % (N, heads))
+        
+        plt.xlabel("$P(H)$, Probability of Heads")
+        plt.ylabel("Density")
+        if i == 0:
+            plt.ylm([0.0, 2.0])
+        plt.setp(ax.get_yticklabels(), visible=False)
+        
+        y = stats.beta.pdf(x, 1 + heads, 1 + N - heads)
+        plt.plot(x, y, label = "observe %d tosses, \n %d heads" % (N, heads))
+        plt.fill_between(x, 0, y, color="aaaadd", alpha=0.5)
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == "__main__":
+    sns.set.palette("deep", desat = .6)
+    sns.set_context(rc={"figure.figsize": (8, 4)})
+    x = np.linspace(0, 1, 100)
+    params = [
+        (0.5, 0.5),
+        (1, 1),
+        (4, 3),
+        (2, 5),
+        (6, 6)
+        ]
+    for p in params:
+        y = beta.pdf(x, p[0], p[1])
+        plt.plot(x, y, label="$\\alpha=%s$, $\\beta=%s$" % p)
+    plt.xlabel("$\\theta$, Fairness")
+    plt.ylabel("Density")
+    plt.legend(title="Parameters")
+    plt.show()
